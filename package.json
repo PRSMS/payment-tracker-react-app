@@ -1,5 +1,6 @@
 {
   "name": "payment-tracker-react-app",
+  "homepage": "https://PRSMS.github.io/payment-tracker-react-app/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +8,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "datatables.net-dt": "^2.3.7",
