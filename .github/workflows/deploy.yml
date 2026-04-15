@@ -27,7 +27,7 @@ jobs:
       run: npm ci
 
     - name: Build
-      run: npm run build
+      run: npm run deploy
       env:
         VITE_FIREBASE_CONFIG: ${{ secrets.VITE_FIREBASE_CONFIG }}
         VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
