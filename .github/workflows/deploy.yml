@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+env:
+  VITE_FIREBASE_CONFIG: ${{ secrets.VITE_FIREBASE_CONFIG }}
+  VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+  
 jobs:
   build:
     name: Build
