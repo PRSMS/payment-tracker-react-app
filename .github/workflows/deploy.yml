@@ -8,6 +8,11 @@ on:
     
 permissions:
   contents: write # Required for pushing code or tags
+
+  
+env:
+  VITE_FIREBASE_CONFIG: ${{ secrets.VITE_FIREBASE_CONFIG }}
+  VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
   
 jobs:
   build-and-deploy:
@@ -28,9 +33,6 @@ jobs:
 
     - name: Build
       run: npm run deploy
-      env:
-        VITE_FIREBASE_CONFIG: ${{ secrets.VITE_FIREBASE_CONFIG }}
-        VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
