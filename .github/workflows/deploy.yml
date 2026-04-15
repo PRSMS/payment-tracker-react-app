@@ -9,7 +9,6 @@ on:
 permissions:
   contents: write # Required for pushing code or tags
 
-  
 env:
   VITE_FIREBASE_CONFIG: ${{ secrets.VITE_FIREBASE_CONFIG }}
   VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
@@ -27,6 +26,7 @@ jobs:
       with:
         node-version: '24.14.1'
         cache: 'npm'
+        
     - name: Set Remote URL
       run: git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
