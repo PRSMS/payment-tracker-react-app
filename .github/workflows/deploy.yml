@@ -5,7 +5,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+    
+permissions:
+  contents: write # Required for pushing code or tags
+  
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
