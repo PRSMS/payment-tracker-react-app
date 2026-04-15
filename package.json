@@ -1,4 +1,5 @@
 {
+  "homepage": "https://PRSMS.github.io/payment-tracker-react-app",
   "name": "payment-tracker-react-app",
   "private": true,
   "version": "0.0.0",
@@ -8,6 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
