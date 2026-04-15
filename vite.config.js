@@ -8,5 +8,5 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
-  base: '/payment-tracker-react-app/',
+  base: '/payment-tracker-react-app',
 })
