@@ -9,7 +9,7 @@ import { Car, AccountInfo } from './components/AccountLists.jsx';
 function App() {
   const [count, setCount] = useState(0);
   const [accountLists, setAccountLists] = useState([]);
-
+{/*
   const handleClick = () => {
     getAllAccounts().then((message) => {
       console.log('Accounts retrieved successfully:', message);
@@ -18,7 +18,7 @@ function App() {
       console.error('Error fetching accounts:', error);
     });
   };
-
+*/}
   return (
     <>
     {/* 
@@ -27,8 +27,8 @@ function App() {
       </div>
       <Car color="red" brand="Toyota" model="Corolla" />
     */}
-      <button onClick={handleClick}>Click Me</button>
-      <AccountInfo accountLists={accountLists} />
+      {/*<button onClick={handleClick}>Click Me</button>*/}
+      <AccountInfo  />
     </>
   )
 }
