@@ -3,8 +3,10 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
-import { getAllAccounts } from './lib/FirebaseAPICall.js';
-import { Car, AccountInfo } from './components/AccountLists.jsx';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import {Home} from './components/Home.jsx';
+import {About} from './components/About.jsx'; 
+import {Login} from './components/LogIn.jsx'; 
 
 function App() {
   const [count, setCount] = useState(0);
@@ -20,16 +22,20 @@ function App() {
   };
 */}
   return (
-    <>
-    {/* 
-      <div className="App">
-        <h1>Hello World!</h1>
-      </div>
-      <Car color="red" brand="Toyota" model="Corolla" />
-    */}
-      {/*<button onClick={handleClick}>Click Me</button>*/}
-      <AccountInfo  />
-    </>
+    <BrowserRouter>
+      {/* Navigation */}
+      <nav>
+        <Link to="/">Home</Link> |{" "}
+        <Link to="/about">About</Link> |{" "}
+        <Link to="/login">Login</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+
+    </BrowserRouter>
   )
 }
 
