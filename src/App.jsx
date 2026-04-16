@@ -11,6 +11,7 @@ import {Login} from './components/LogIn.jsx';
 function App() {
   const [count, setCount] = useState(0);
   const [accountLists, setAccountLists] = useState([]);
+
 {/*
   const handleClick = () => {
     getAllAccounts().then((message) => {
@@ -22,7 +23,7 @@ function App() {
   };
 */}
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.VITE_BASE_URL}>
       {/* Navigation */}
       <nav>
         <Link to="/">Home</Link> |{" "}

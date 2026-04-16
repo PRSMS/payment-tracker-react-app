@@ -1,10 +1,12 @@
 import { Car, AccountInfo } from './AccountLists.jsx';
+import { AccountDetails } from './AccountDetails.jsx';
 
 export function Home() {
   return (
     <>
         <h1>Home Page</h1>
         <AccountInfo  />
+        <AccountDetails accountId="-Opl_LQBNRRrl5lGtKUo" />
         
         {/* 
             <div className="App">
