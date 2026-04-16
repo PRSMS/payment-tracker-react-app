@@ -70,7 +70,7 @@ export function AccountInfo() {
   if (loading) return <p>Loading...</p>;
   return (
     <div>
-      <h1>Account Lists!!!!!!!!!</h1>
+      <h1>Account Lists!!!!</h1>
       {/* Render account list here */}
       {/*
       <ul>
