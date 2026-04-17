@@ -12,6 +12,7 @@ function App() {
   const [count, setCount] = useState(0);
   const [accountLists, setAccountLists] = useState([]);
 
+  const baseURL = import.meta.env.VITE_BASE_URL;
 {/*
   const handleClick = () => {
     getAllAccounts().then((message) => {
@@ -23,7 +24,7 @@ function App() {
   };
 */}
   return (
-    <BrowserRouter basename={import.meta.env.VITE_BASE_URL}>
+    <BrowserRouter basename={baseURL}>
       {/* Navigation */}
       <nav>
         <Link to="/">Home</Link> |{" "}
