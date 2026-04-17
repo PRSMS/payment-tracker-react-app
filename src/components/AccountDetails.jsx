@@ -69,7 +69,7 @@ function Terms(accountId) {
                 return [
                     term.term || '',
                     formatDate(term.due_date) || '',
-                    term.amortization || '',
+                    formatAmount(term.amortization) || '',
                     term.status || '',
                     term.remarks || ''
                 ];
