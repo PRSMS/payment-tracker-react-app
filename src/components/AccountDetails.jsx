@@ -9,51 +9,67 @@ import { getAccountViaId,
 export function AccountDetails(accountId) {
 
     const [loading, setLoading] = useState(true);
+
+
+    //if (loading) return <p>Loading...</p>;
+    return (
+        <>
+            <Details accountId={accountId.accountId} />
+            <Terms accountId={accountId.accountId} />
+            <Payments accountId={accountId.accountId} />
+        </>
+    );
+}
+function Details(accountId) {
+
     const [accountData, setAccountData] = useState(null);
-    const [termsData, setTermsData] = useState(null);
-    const [paymentsData, setPaymentsData] = useState(null);
 
     useEffect(() => {
         // Fetch account details            
         getAccountViaId(accountId.accountId).then((accountData) => {
             console.log('Account details retrieved successfully:', accountData);
             setAccountData(accountData);
-            setLoading(false);
+            //setLoading(false);
         }).catch((error) => {
             console.error('Error fetching account details:', error);
-            setLoading(false);
+            //setLoading(false);
         });
     }, []);
+
+    return (
+        <>
+            <h1>Account Details!</h1>
+        </>
+    );
+}
+
+function Terms(accountId) {
+    const [termsData, setTermsData] = useState(null);
 
     useEffect(() => {
         // Fetch terms for the account
         getTermViaAccountId(accountId.accountId).then((termsData) => {
             console.log('Terms retrieved successfully:', termsData);
-            setTermsData(termsData);
-            setLoading(false);
+            const data = Object.values(termsData).map(term => {
+                return [
+                    term.term || '',
+                    formatDate(term.due_date) || '',
+                    term.amortization || '',
+                    term.status || '',
+                    term.remarks || ''
+                ];
+            });
+            setTermsData(data);
+            //setLoading(false);
         }).catch((error) => {
             console.error('Error fetching terms:', error);
-            setLoading(false);
+            //setLoading(false);
         });  
         
     }, []);
 
-    useEffect(() => {
-        // Fetch payments for the account
-        getPaymentViaAccountID(accountId.accountId).then((paymentsData) => {
-            console.log('Payments retrieved successfully:', paymentsData);
-            setPaymentsData(paymentsData);
-            setLoading(false);
-        }).catch((error) => {
-            console.error('Error fetching payments:', error);
-            setLoading(false);
-        });
-    }, []);
-
-    if (loading) return <p>Loading...</p>;
     return (
         <>
-            <h1>Account Details!</h1>
             <h1>Terms</h1>
             {/* Render DataTable here account-table*/}
             <DataTable data={termsData} className="display account-table">
@@ -68,6 +84,35 @@ export function AccountDetails(accountId) {
                 </thead>
             </DataTable>
             
+        </>
+    );
+}
+
+function Payments(accountId) {
+    const [paymentsData, setPaymentsData] = useState(null);
+    useEffect(() => {
+        // Fetch payments for the account
+        getPaymentViaAccountID(accountId.accountId).then((paymentsData) => {
+            console.log('Payments retrieved successfully:', paymentsData);;
+            const data = Object.values(paymentsData).map(payment => {
+                return [
+                    payment.name || '',
+                    formatAmount(payment.amount) || '',
+                    formatDate(payment.payment_date) || '',
+                    payment.status || '',
+                    payment.remarks || ''
+                ];
+            });
+            setPaymentsData(data);
+            //setLoading(false);
+        }).catch((error) => {
+            console.error('Error fetching payments:', error);
+            //setLoading(false);
+        });
+    }, []);
+
+    return (
+        <>
             <h1>Payments</h1>
             {/* Render DataTable here account-table*/}
             <DataTable data={paymentsData} className="display account-table">
@@ -82,5 +127,26 @@ export function AccountDetails(accountId) {
                 </thead>
             </DataTable>
         </>
-    );
+    );   
+
+}
+
+function formatStatus(statusValue) {
+    if (!statusValue) return '';
+    return statusValue.charAt(0).toUpperCase() + statusValue.slice(1);
+}
+
+function formatDate(dateValue) {
+    if (!dateValue) return '';
+    const date = new Date(dateValue);
+    return date.toLocaleDateString();
+}
+
+function formatAmount(amountValue) {
+    return amountValue != null && amountValue !== ''
+        ? `₱${Number(amountValue).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })}`
+        : '';
 }

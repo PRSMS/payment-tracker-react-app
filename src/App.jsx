@@ -27,9 +27,39 @@ function App() {
     <Router>
       {/* Navigation */}
       <nav>
+        <img
+          className="framework"
+          src={heroImg}
+          alt=""
+          width="48"
+          height="38"
+        />
+        <a href="./">Admin Office</a>
+        {/*<button
+          type="button"
+          id="navbarSideCollapse"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>*/}
+        <div
+          className="navbar-collapse offcanvas-collapse"
+          id="navbarsExampleDefault"
+        >
+          <ul>
+            <li>
+              {/*<a className="nav-link" href="/login">Login</a>*/}
+              <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link className="nav-link" to="/about">About</Link>
+            </li>
+          </ul>
+        </div>
+        {/*
         <Link to="/">Home</Link> |{" "}
         <Link to="/about">About</Link> |{" "}
         <Link to="/login">Login</Link>
+        */}
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
