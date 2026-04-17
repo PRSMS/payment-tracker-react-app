@@ -53,7 +53,7 @@ export function AccountDetails(accountId) {
     if (loading) return <p>Loading...</p>;
     return (
         <>
-            <h1>Account Details</h1>
+            <h1>Account Details!</h1>
             <h1>Terms</h1>
             {/* Render DataTable here account-table*/}
             <DataTable data={termsData} className="display account-table">
