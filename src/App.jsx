@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import {Home} from './components/Home.jsx';
 import {About} from './components/About.jsx'; 
 import {Login} from './components/LogIn.jsx'; 
@@ -24,7 +24,7 @@ function App() {
   };
 */}
   return (
-    <BrowserRouter basename={baseURL}>
+    <Router>
       {/* Navigation */}
       <nav>
         <Link to="/">Home</Link> |{" "}
@@ -36,8 +36,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
       </Routes>
-
-    </BrowserRouter>
+    </Router>
   )
 }
 
