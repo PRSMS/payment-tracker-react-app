@@ -1,12 +1,23 @@
 import { Car, AccountInfo } from './AccountLists.jsx';
-import { AccountDetails } from './AccountDetails.jsx';
+
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 
 export function Home() {
   return (
     <>
-        <h1>Home Page</h1>
-        <AccountInfo  />
-        <AccountDetails accountId="-Opl_LQBNRRrl5lGtKUo" />
+        <Container className="p-3">
+            <Card border="info" >
+                {/* <Card.Img variant="top" src="https://placeholder.com" /> */}
+                <Card.Body>
+                    <Card.Title>AccountInfo</Card.Title>
+                        <AccountInfo  />
+                    {/*<Card.Text></Card.Text>*/}
+                    {/*<Button variant="primary">Learn More</Button>*/} 
+                </Card.Body>
+            </Card>
+        </Container>
         
         {/* 
             <div className="App">

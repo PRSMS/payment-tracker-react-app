@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt';
 
@@ -6,17 +7,31 @@ import { getAccountViaId,
     getTermViaAccountId,
     getPaymentViaAccountID } from '../lib/FirebaseAPICall.js';
 
-export function AccountDetails(accountId) {
+import { BrowserRouter, Routes, Route, Link, useParams } from 'react-router-dom';
 
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+
+DataTable.use(DT);
+
+export function AccountDetails() {
+    const { accountId } = useParams(null);
     const [loading, setLoading] = useState(true);
 
 
     //if (loading) return <p>Loading...</p>;
     return (
         <>
-            <Details accountId={accountId.accountId} />
-            <Terms accountId={accountId.accountId} />
-            <Payments accountId={accountId.accountId} />
+            <Container>
+                <Card border="info" >
+                    <Card.Body>
+                        <Card.Title>Account Information</Card.Title>
+                        <Details accountId={accountId} />
+                        <Terms accountId={accountId} />
+                        <Payments accountId={accountId} />
+                    </Card.Body>
+                </Card>
+            </Container>
         </>
     );
 }
@@ -38,7 +53,7 @@ function Details(accountId) {
 
     return (
         <>
-            <h1>Account Details!</h1>
+            <h1>Account : {accountData?.name}</h1>
         </>
     );
 }
@@ -72,7 +87,7 @@ function Terms(accountId) {
         <>
             <h1>Terms</h1>
             {/* Render DataTable here account-table*/}
-            <DataTable data={termsData} className="display account-table">
+            <DataTable data={termsData} className="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -115,8 +130,8 @@ function Payments(accountId) {
         <>
             <h1>Payments</h1>
             {/* Render DataTable here account-table*/}
-            <DataTable data={paymentsData} className="display account-table">
-                <thead>
+            <DataTable data={paymentsData} className="table table-striped table-bordered table-hover">
+                <thead className="thead-dark">
                     <tr>
                         <th>Name</th>
                         <th>Amount</th>

@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
+
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt';
+
+import Dropdown from 'react-bootstrap/Dropdown';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import { getAllAccounts } from '../lib/FirebaseAPICall.js';
 
@@ -35,7 +41,8 @@ export function AccountInfo() {
                         account.remarks || ''
                     ];
                 });
-                setTableData(data);
+                //setTableData(data);
+                setTableData(message);
                 setLoading(false);
         }).catch((error) => {
             console.error('Error fetching accounts:', error);
@@ -70,7 +77,7 @@ export function AccountInfo() {
   if (loading) return <p>Loading...</p>;
   return (
     <div>
-      <h1>Account Lists!</h1>
+      {/*<h1>Account Lists!</h1> */}
       {/* Render account list here */}
       {/*
       <ul>
@@ -80,8 +87,8 @@ export function AccountInfo() {
       </ul>
       */}
         {/* Render DataTable here account-table*/}
-        <DataTable data={tableData} className="display account-table">
-            <thead>
+        <DataTable className="table table-striped table-bordered table-hover">
+            <thead className="thead-dark">
                 <tr>
                     <th>Name</th>
                     <th>Account Status</th>
@@ -89,6 +96,27 @@ export function AccountInfo() {
                     <th>Remarks</th>
                 </tr>
             </thead>
+            <tbody>
+                {Object.entries(tableData).map(([key, account]) => (
+                    <tr key={key}>
+                        <td>
+                            <Dropdown>
+                                <Dropdown.Toggle>
+                                    {account.name || 'No Name'}&emsp;<i className="fa fa-eye"></i>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item href={`#accountdetails/${key}`}>See Details</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1">Edit</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1">Delete</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </td>
+                        <td>{account.account_status}</td>
+                        <td>{account.amount}</td>
+                        <td>{account.remarks}</td>
+                    </tr>
+                ))}
+            </tbody>
         </DataTable>
     </div>
   );
