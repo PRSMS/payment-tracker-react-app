@@ -2,13 +2,28 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
-import './App.css'
-import { getAllAccounts } from './lib/FirebaseAPICall.js';
-import { Car, AccountInfo } from './components/AccountLists.jsx';
+
+//import './App.css'
+import { BrowserRouter, HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
+
+import {Home} from './components/Home.jsx';
+import {About} from './components/About.jsx'; 
+import {Login} from './components/LogIn.jsx'; 
+import {AccountDetails} from './components/AccountDetails.jsx'; 
+import {OffcanvasExample} from './components/Navbar.jsx'; 
+
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 function App() {
   const [count, setCount] = useState(0);
   const [accountLists, setAccountLists] = useState([]);
+
+  const baseURL = import.meta.env.VITE_BASE_URL;
 {/*
   const handleClick = () => {
     getAllAccounts().then((message) => {
@@ -20,16 +35,22 @@ function App() {
   };
 */}
   return (
-    <>
-    {/* 
-      <div className="App">
-        <h1>Hello World!</h1>
-      </div>
-      <Car color="red" brand="Toyota" model="Corolla" />
-    */}
-      {/*<button onClick={handleClick}>Click Me</button>*/}
-      <AccountInfo  />
-    </>
+    <Router>
+      {/* Navigation */}
+        <OffcanvasExample />
+        {/*
+        <Link to="/">Home</Link> |{" "}
+        <Link to="/about">About</Link> |{" "}
+        <Link to="/login">Login</Link>
+        */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="accountdetails/:accountId" element={<AccountDetails />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   )
 }
 
