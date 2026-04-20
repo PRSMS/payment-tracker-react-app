@@ -88,7 +88,7 @@ function Terms(accountId) {
             <h1>Terms</h1>
             {/* Render DataTable here account-table*/}
             <DataTable data={termsData} className="table table-striped table-bordered table-hover">
-                <thead>
+                <thead className="thead-dark">
                     <tr>
                         <th>Name</th>
                         <th>Due Date</th>

@@ -7,6 +7,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 import { getAllAccounts } from '../lib/FirebaseAPICall.js';
 
@@ -76,7 +78,7 @@ export function AccountInfo() {
 
   if (loading) return <p>Loading...</p>;
   return (
-    <div>
+    <div className="pt-3">
       {/*<h1>Account Lists!</h1> */}
       {/* Render account list here */}
       {/*
@@ -87,7 +89,8 @@ export function AccountInfo() {
       </ul>
       */}
         {/* Render DataTable here account-table*/}
-        <DataTable className="table table-striped table-bordered table-hover">
+        {/*}
+        <DataTable className="table table-striped table-bordered table-hover" options={{responsive: true}}>
             <thead className="thead-dark">
                 <tr>
                     <th>Name</th>
@@ -118,6 +121,23 @@ export function AccountInfo() {
                 ))}
             </tbody>
         </DataTable>
+        */}
+        <ul style={{listStyleType: 'none', padding: 0, margin: 0 }}>
+            {Object.entries(tableData).map(([key, account]) => (
+                <li className="pt-3"  key={key}>
+                    <Card>
+                        <Card.Header>{account.name || 'No Name'}</Card.Header>
+                        <Card.Body>
+                            <Card.Title>{account.amount} : {account.account_status}</Card.Title>
+                            <Card.Text>
+                            {account.remarks}
+                            </Card.Text>
+                            <Button variant="primary" href={`#accountdetails/${key}`}>See Details</Button>
+                        </Card.Body>
+                    </Card>
+                </li>
+            ))}
+        </ul>
     </div>
   );
 }
