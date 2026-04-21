@@ -74,4 +74,4 @@ jobs:
         with:
           personal_token: ${{ secrets.EXTERNAL_REPO_PUSH_TOKEN }}
           publish_dir: ./dist
-          external_repository: prsms.github.io/qa-payment-tracker-react-app
+          external_repository: PRSMS/qa-payment-tracker-react-app
