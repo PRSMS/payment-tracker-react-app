@@ -23,9 +23,9 @@ export function AccountDetails() {
     //if (loading) return <p>Loading...</p>;
     return (
         <>
-            <Nav justify variant="tabs" defaultActiveKey="/home" style={{position:'sticky', top:68, zIndex: 1000}}>
+            <Nav justify variant="tabs" defaultActiveKey="link-0" style={{position:'sticky', top:68, zIndex: 1000}}>
             <Nav.Item>
-                <Nav.Link eventKey="link-">Active</Nav.Link>
+                <Nav.Link eventKey="link-0">Active</Nav.Link>
             </Nav.Item>
             <Nav.Item>
                 <Nav.Link eventKey="link-1">Option 2</Nav.Link>
@@ -37,7 +37,7 @@ export function AccountDetails() {
             </Nav.Item>
             </Nav>
             <Container>
-                <Card border="info" >
+                <Card key={'Light'} bg={'light'} className="mb-2">
                     <Card.Body>
                         {/*}
                         <Card.Title>Account Information</Card.Title>
@@ -45,18 +45,17 @@ export function AccountDetails() {
                         <Terms accountId={accountId} />
                         <Payments accountId={accountId} />
                         */}
-                        {['1', '2', '3', '4', '5'].map((expand) => (
-                            <><Card.Title>Account Information</Card.Title>
-                                <Details accountId $ {...accountId} />
-                                <Details accountId $ {...accountId} />
-                                <Details accountId $ {...accountId} />
-                                <Details accountId $ {...accountId} />
-                                <Details accountId $ {...accountId} />
-                                <Details accountId $ {...accountId} />
-                                <Details accountId $ {...accountId} />
-                                <Details accountId $ {...accountId} />
-                                <Details accountId $ {...accountId} />
-                                <Details accountId $ {...accountId} />
+                        {['1', '2', '3', '4', '5'].map((key) => (
+                            <>
+                                <Details accountId={accountId} />
+                                <Details accountId={accountId} />
+                                <Details accountId={accountId} />
+                                <Details accountId={accountId} />
+                                <Details accountId={accountId} />
+                                <Details accountId={accountId} />
+                                <Details accountId={accountId} />
+                                <Details accountId={accountId} />
+                                <Details accountId={accountId} />
                             </>
 
                         ))}
