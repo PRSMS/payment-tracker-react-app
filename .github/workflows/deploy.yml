@@ -72,6 +72,6 @@ jobs:
       - name: Deploy to QA GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.EXTERNAL_REPO_PUSH_TOKEN }}
+          personal_token: ${{ secrets.EXTERNAL_REPO_PUSH_TOKEN }}
           publish_dir: ./dist
           external_repository: prsms.github.io/qa-payment-tracker-react-app
