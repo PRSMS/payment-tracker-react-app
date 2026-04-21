@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 //import './App.css'
 import { BrowserRouter, HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 

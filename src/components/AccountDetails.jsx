@@ -25,19 +25,17 @@ export function AccountDetails() {
         <>
             <Nav justify variant="tabs" defaultActiveKey="link-0" style={{position:'sticky', top:68, zIndex: 1000}}>
             <Nav.Item>
-                <Nav.Link eventKey="link-0">Active</Nav.Link>
+                <Nav.Link eventKey="link-0">Details</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-                <Nav.Link eventKey="link-1">Option 2</Nav.Link>
+                <Nav.Link eventKey="link-1">Terms</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-                <Nav.Link eventKey="link-2" >
-                Disabled
-                </Nav.Link>
+                <Nav.Link eventKey="link-2">Payments</Nav.Link>
             </Nav.Item>
             </Nav>
-            <Container>
-                <Card key={'Light'} bg={'light'} className="mb-2">
+            <Container className="pt-3">
+                <Card className="mb-2">
                     <Card.Body>
                         {/*}
                         <Card.Title>Account Information</Card.Title>
