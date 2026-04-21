@@ -6,11 +6,6 @@ on:
       - main
       - qa
 
-env:
-  VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
-  VITE_FIREBASE_CONFIG: ${{ secrets.VITE_FIREBASE_CONFIG }}
-  VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
-  
 jobs:
   build:
     name: Build
@@ -29,6 +24,9 @@ jobs:
       - name: Build project
         run: npm run build
         env:
+          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+          VITE_FIREBASE_CONFIG: ${{ secrets.VITE_FIREBASE_CONFIG }}
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
           VITE_BASE: ${{ github.ref == 'refs/heads/main' && '/payment-tracker-react-app/' || '/qa-payment-tracker-react-app/' }}
 
       - name: Upload production-ready build files

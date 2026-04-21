@@ -12,7 +12,7 @@ export function OffcanvasExample() {
   return (
     <>
       {['sm'].map((expand) => (
-        <Navbar key={expand} expand={expand} collapseOnSelect className="bg-body-tertiary mb-3">
+        <Navbar key={expand} expand={expand} collapseOnSelect className="bg-body-tertiary mb-3" style={{position:'sticky', top:0, zIndex: 1000}}>
           <Container fluid>
             <img
                 className="d-inline-block align-top"

@@ -1,4 +1,4 @@
-import { Car, AccountInfo } from './AccountLists.jsx';
+import { Car, AccountInfo } from './components/AccountLists.jsx';
 
 import { useState } from 'react';
 import Card from 'react-bootstrap/Card';

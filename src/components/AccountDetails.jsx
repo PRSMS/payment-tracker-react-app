@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route, Link, useParams } from 'react-router-dom'
 
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
 
 DataTable.use(DT);
 
@@ -22,13 +23,43 @@ export function AccountDetails() {
     //if (loading) return <p>Loading...</p>;
     return (
         <>
+            <Nav justify variant="tabs" defaultActiveKey="/home" style={{position:'sticky', top:68, zIndex: 1000}}>
+            <Nav.Item>
+                <Nav.Link eventKey="link-">Active</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link eventKey="link-1">Option 2</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link eventKey="link-2" >
+                Disabled
+                </Nav.Link>
+            </Nav.Item>
+            </Nav>
             <Container>
                 <Card border="info" >
                     <Card.Body>
+                        {/*}
                         <Card.Title>Account Information</Card.Title>
                         <Details accountId={accountId} />
                         <Terms accountId={accountId} />
                         <Payments accountId={accountId} />
+                        */}
+                        {['1', '2', '3', '4', '5'].map((expand) => (
+                            <><Card.Title>Account Information</Card.Title>
+                                <Details accountId $ {...accountId} />
+                                <Details accountId $ {...accountId} />
+                                <Details accountId $ {...accountId} />
+                                <Details accountId $ {...accountId} />
+                                <Details accountId $ {...accountId} />
+                                <Details accountId $ {...accountId} />
+                                <Details accountId $ {...accountId} />
+                                <Details accountId $ {...accountId} />
+                                <Details accountId $ {...accountId} />
+                                <Details accountId $ {...accountId} />
+                            </>
+
+                        ))}
                     </Card.Body>
                 </Card>
             </Container>

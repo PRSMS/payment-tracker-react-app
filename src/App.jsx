@@ -6,9 +6,9 @@ import heroImg from './assets/hero.png'
 //import './App.css'
 import { BrowserRouter, HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
-import {Home} from './components/Home.jsx';
-import {About} from './components/About.jsx'; 
-import {Login} from './components/LogIn.jsx'; 
+import {Home} from './Home.jsx';
+import {About} from './About.jsx'; 
+import {Login} from './LogIn.jsx'; 
 import {AccountDetails} from './components/AccountDetails.jsx'; 
 import {OffcanvasExample} from './components/Navbar.jsx'; 
 
