@@ -48,8 +48,8 @@ export function Home() {
                     </div>
                 </Card.Header>
                 <Card.Body>
-                    <Card.Title></Card.Title>
                         <AccountInfo  />
+                    {/*<Card.Title></Card.Title> */}
                     {/*<Card.Text></Card.Text>*/}
                     {/*<Button variant="primary">Learn More</Button>*/} 
                 </Card.Body>
