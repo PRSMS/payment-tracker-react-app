@@ -7,9 +7,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //import './App.css'
 import { BrowserRouter, HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
-import {Home} from './Home.jsx';
-import {About} from './About.jsx'; 
-import {Login} from './LogIn.jsx'; 
+import {Home} from './components/Home.jsx';
+import {About} from './components/About.jsx'; 
+import {Login} from './components/LogIn.jsx'; 
 import {AccountDetails} from './components/AccountDetails.jsx'; 
 import {OffcanvasExample} from './components/Navbar.jsx'; 
 
@@ -20,10 +20,14 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
+import { Dashboard } from './components/Dashboard.jsx';
+import { useAuth } from './context/AuthContext.jsx';
+
 function App() {
   const [count, setCount] = useState(0);
   const [accountLists, setAccountLists] = useState([]);
 
+  const { currentUser } = useAuth();
   const baseURL = import.meta.env.VITE_BASE_URL;
 {/*
   const handleClick = () => {
@@ -36,22 +40,13 @@ function App() {
   };
 */}
   return (
-    <Router>
-      {/* Navigation */}
-        <OffcanvasExample />
-        {/*
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/about">About</Link> |{" "}
-        <Link to="/login">Login</Link>
-        */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="accountdetails/:accountId" element={<AccountDetails />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </Router>
+    <>
+      {currentUser ? (
+        <Dashboard />
+      ) : (
+        <Login />
+      )}
+    </>
   )
 }
 
