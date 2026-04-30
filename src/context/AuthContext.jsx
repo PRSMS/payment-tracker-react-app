@@ -14,6 +14,8 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
+    const [currentUserTokenResult, setCurrentUserTokenResult] = useState(null);
+    const [currentUserClaims, setCurrentUserClaims] = useState(null);
     //const [loading, setLoading] = useState(true);
 
     
@@ -45,8 +47,28 @@ export function AuthProvider({ children }) {
         return unsubscribe;
     }, []);
 
+    useEffect(() => {
+        if (currentUser) {
+            currentUser.getIdTokenResult(true) // Force refresh to get latest claims
+                .then((idTokenResult) => {
+                    setCurrentUserClaims(idTokenResult.claims);
+                    setCurrentUserTokenResult(idTokenResult);
+                    console.log('User claims updated:', idTokenResult.claims);
+                    console.log('ID Token Result updated:', idTokenResult);
+                })
+                .catch((error) => {
+                    console.error('Error fetching ID token result:', error);
+                });
+        } else {
+            setCurrentUserClaims(null);
+            setCurrentUserTokenResult(null);
+        }
+    }, [currentUser]);
+
     const value = {
         currentUser,
+        currentUserTokenResult,
+        currentUserClaims,
         login,
         signup,
         logout,
