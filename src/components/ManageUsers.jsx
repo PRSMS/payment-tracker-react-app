@@ -5,9 +5,16 @@ import { Container, Tab, Tabs, Card, Row, Col, Badge, Button } from "react-boots
 
 export function ManageUsers() {
     const [userList, setUserList] = useState(null);
+    const { currentUserTokenResult } = useAuth();  
 
     const handleGetUsers = () => {
-        fetch('http://localhost:3000/api/users')
+        fetch('http://localhost:3000/api/users', {
+            method: 'GET',
+            headers: {
+                'authorization': `Bearer ${currentUserTokenResult.token}`,
+                'Content-Type': 'application/json'
+            }
+        })
             .then((response) => { 
                 if (!response.ok) throw new Error("Network response was not ok");
                 return response.json();
