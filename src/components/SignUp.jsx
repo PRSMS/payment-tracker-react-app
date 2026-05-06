@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext'
 import { Card, Container, Form, Button, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+const apiUsersURL = import.meta.env.VITE_API_BASE_URL + '/api/users';
+
 export function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -62,7 +64,7 @@ const handleAdminSignUpPost = async () => {
   };
 
   try {
-    const response = await fetch(' http://localhost:3000/api/users/', {
+    const response = await fetch(apiUsersURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Critical for sending JSON
