@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { Card, Container, Form, Button, InputGroup } from 'react-bootstrap';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export function SignUp() {
   const [email, setEmail] = useState('');
@@ -154,13 +154,13 @@ const handleAdminSignUpPost = async () => {
               Sign Up
             </Button>
           </Form>
-{/*}
+
           <div className="text-center mt-4">
             <p className="text-muted">
               Already have an account?{' '}
               <Link to="/login" className="text-decoration-none fw-semibold">Sign in</Link>
             </p>
-          </div>*/}
+          </div>
         </Card.Body>
       </Card>
     </Container>

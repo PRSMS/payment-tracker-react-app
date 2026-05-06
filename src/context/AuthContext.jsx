@@ -3,7 +3,8 @@ import { auth, database } from '../config/firebase'
 import { setPersistence, browserSessionPersistence,
     signInWithEmailAndPassword, 
     createUserWithEmailAndPassword, 
-    signOut, onAuthStateChanged } from 'firebase/auth'
+    signOut, onAuthStateChanged, sendPasswordResetEmail, sendEmailVerification
+ } from 'firebase/auth'
 //import { ref, set } from 'firebase/database';
 
 const AuthContext = React.createContext();
@@ -16,7 +17,7 @@ export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [currentUserTokenResult, setCurrentUserTokenResult] = useState(null);
     const [currentUserClaims, setCurrentUserClaims] = useState(null);
-    //const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     
     function signup(email, password) {
@@ -30,7 +31,16 @@ export function AuthProvider({ children }) {
     function loginWithPersistence(email, password) {
         return setPersistence(auth, browserSessionPersistence)
             .then(() => {
-                return signInWithEmailAndPassword(auth, email, password);
+                return signInWithEmailAndPassword(auth, email, password).then((UserCredential) => {
+                    if(!UserCredential.user.emailVerified){
+                        // 1. Notify the user they need to verify their email
+                        alert("Please verify your email before logging in.");
+
+                        // 3. Force sign out so they can't access protected routes
+                        signOut(auth);
+
+                    }
+                });
             });
     }
 
@@ -38,10 +48,21 @@ export function AuthProvider({ children }) {
         return signOut(auth)
     }
 
+    function resetPassword(email) {
+        // Implement password reset functionality here
+        return sendPasswordResetEmail(auth, email);
+    }
+
+    function emailAddressVerification() {
+        // Implement email address verification functionality here
+        return currentUser.sendEmailVerification();
+        //return sendEmailVerification(currentUser);
+    }
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
-            //setLoading(false);
+            setLoading(false);
         });
 
         return unsubscribe;
@@ -72,13 +93,14 @@ export function AuthProvider({ children }) {
         login,
         signup,
         logout,
-        loginWithPersistence
+        loginWithPersistence,
+        resetPassword
     };
 
     return (
         <AuthContext.Provider value={value}>
-            {/*{!loading && children}*/}
-            {children}
+            {!loading && children}
+            {/*{children}*/}
         </AuthContext.Provider>
     );
 }
