@@ -27,6 +27,7 @@ jobs:
           VITE_BASE_URL: ${{ github.ref == 'refs/heads/main' && '/payment-tracker-react-app/' || '/qa-payment-tracker-react-app/' }}
           VITE_FIREBASE_CONFIG: ${{ secrets.VITE_FIREBASE_CONFIG }}
           VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
           VITE_BASE: ${{ github.ref == 'refs/heads/main' && '/payment-tracker-react-app/' || '/qa-payment-tracker-react-app/' }}
 
       - name: Upload production-ready build files
