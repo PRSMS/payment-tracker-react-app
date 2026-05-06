@@ -5,27 +5,33 @@ import { Container, Tab, Tabs, Card, Row, Col, Badge, Button } from "react-boots
 
 export function ManageUsers() {
     const [userList, setUserList] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const { currentUserTokenResult } = useAuth();  
 
-    const handleGetUsers = () => {
-        fetch('http://localhost:3000/api/users', {
-            method: 'GET',
-            headers: {
-                'authorization': `Bearer ${currentUserTokenResult.token}`,
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response) => { 
-                if (!response.ok) throw new Error("Network response was not ok");
-                return response.json();
-            })
-            .then(data => {
-                console.log('Data retrieved successfully:', data);
-                setUserList(data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
+    const apiUsersURL = import.meta.env.VITE_API_BASE_URL + '/api/users';
+
+    const handleGetUsers = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(apiUsersURL, {
+                method: 'GET',
+                headers: {
+                    'authorization': `Bearer ${currentUserTokenResult.token}`,
+                    'Content-Type': 'application/json'
+                }
             });
+            if (!response.ok) throw new Error("Network response was not ok");
+            const data = await response.json();
+            console.log('Data retrieved successfully:', data);
+            setUserList(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
     }
 
   return (
@@ -33,9 +39,12 @@ export function ManageUsers() {
         <Card className="mb-3">
             <Card.Body className="d-flex justify-content-between align-items-center">
                 <span className="fw-bold">Total users: {userList ? userList.length : 0}</span>
-                <Button variant="primary" onClick={handleGetUsers}>Get Users</Button>
+                <Button variant="primary" onClick={handleGetUsers} disabled={loading}>
+                    {loading ? 'Loading...' : 'Get Users'}
+                </Button>
             </Card.Body>
         </Card>
+        {error && <div className="alert alert-danger">{error}</div>}
         <Row xs={1} md={2} lg={3} className="g-3">
             {userList && userList.map(user => (
                 <Col key={user.id}>
