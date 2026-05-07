@@ -20,7 +20,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import {HashRouter as Router, Routes, Route, Link} from 'react-router-dom';
 
 import { Dashboard } from './components/Dashboard.jsx';
 import { SignUp } from "./components/SignUp.jsx";
@@ -61,7 +61,8 @@ function App() {
         <Button variant="primary" href={`${baseURL}/login`}>Log In</Button>{' '}
         <Button variant="secondary" href={`${baseURL}/signup`}>Sign Up</Button>
         */}
-        <Router basename={import.meta.env.VITE_BASE_URL}>
+        {/*<Router basename={import.meta.env.VITE_BASE_URL}>*/}
+        <Router>
           <AuthProvider>
               <Routes>
 

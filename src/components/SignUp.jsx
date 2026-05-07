@@ -74,7 +74,7 @@ const handleAdminSignUpPost = async () => {
 
     const result = await response.json();
     console.log('Success:', result);
-    window.location.reload();
+    //window.location.reload();
   } catch (error) {
     console.error('Error:', error);
   }
