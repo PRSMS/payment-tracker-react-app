@@ -6,6 +6,8 @@ import { SignUp } from "./SignUp.jsx";
 import { ManageUsers } from "./ManageUsers.jsx";
 import { ManageAccounts } from "./ManageAccounts.jsx";
 
+import { AdminAPIProvider } from '../context/AdminAPIContext.jsx';
+
 export function Dashboard() {
     const { logout, currentUser, currentUserClaims } = useAuth();
     const [tabKey, setTabKey] = useState('home');
@@ -27,7 +29,7 @@ export function Dashboard() {
                 </Tab>
                 {/* Admin manage payment-tracker users*/}
                 {currentUserClaims?.admin ? 
-                    <Tab eventKey="users" title="Users"><ManageUsers /> </Tab>
+                    <Tab eventKey="users" title="Users"><AdminAPIProvider><ManageUsers /></AdminAPIProvider></Tab>
                 : null}
                 {/* Admin manage payment-tracker accounts*/}
                 <Tab eventKey="accounts" title="Accounts">
