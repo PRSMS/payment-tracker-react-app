@@ -21,6 +21,16 @@ export function AdminAPIProvider({ children }) {
             });
     }
 
+    function deleteUser(id){
+        return fetch(apiAdminBaseURL + '/api/users/' + id, {
+                method: 'DELETE',
+                headers: {
+                    /*'authorization': `Bearer ${currentUserTokenResult.token}`,*/
+                    'Content-Type': 'application/json'
+                }
+        });
+    }
+
     function getUsers(){
         return fetch(apiAdminBaseURL + '/api/users', {
                 method: 'GET',
@@ -68,12 +78,29 @@ export function AdminAPIProvider({ children }) {
             });
     }
 
+    function setUserDisabled(data){
+        const id = data.id;
+        const payload = {
+                "disabled": data.disabled
+            };
+
+        return fetch(apiAdminBaseURL + '/api/users/disabled/' + id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json', // Critical for sending JSON
+                },
+                body: JSON.stringify(payload), // Data must be stringifie
+            });
+    }
+
     const value = {
         createUser,
+        deleteUser,
         getUsers,
         forgotPassword,
         sendEmailVerificationRequest,
-        setAdminRole
+        setAdminRole,
+        setUserDisabled
     };
 
     return (
