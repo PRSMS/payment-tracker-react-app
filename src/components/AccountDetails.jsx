@@ -2,64 +2,61 @@ import { useState, useEffect } from 'react';
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt';
-
+/*
 import { getAccountViaId, 
     getTermViaAccountId,
     getPaymentViaAccountID } from '../lib/FirebaseAPICall.js';
+*/
+import { useParams } from 'react-router-dom';
 
-import { BrowserRouter, Routes, Route, Link, useParams } from 'react-router-dom';
+//import Card from 'react-bootstrap/Card';
+//import Nav from 'react-bootstrap/Nav';
+import { Container, Tab, Tabs, Badge, Button } from "react-bootstrap";
 
-import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
+import { useAuth } from "../context/AuthContext";
+import { useAdminAPI } from '../context/AdminAPIContext.jsx';
+import { useAccounts } from "../context/AccountsContext";
 
-DataTable.use(DT);
+
+import { PaymentListsProvider } from "../context/PaymentListsContext";
+
+//DataTable.use(DT);
 
 export function AccountDetails() {
     const { accountId } = useParams(null);
+    const [tabKey, setTabKey] = useState('home');
     const [loading, setLoading] = useState(true);
 
+    const { Accounts } = useAccounts();
+    const account = Accounts[accountId];
 
     //if (loading) return <p>Loading...</p>;
     return (
         <>
-            <Nav justify variant="tabs" defaultActiveKey="link-0" style={{position:'sticky', top:68, zIndex: 1000}}>
-            <Nav.Item>
-                <Nav.Link eventKey="link-0">Details</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link eventKey="link-1">Terms</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link eventKey="link-2">Payments</Nav.Link>
-            </Nav.Item>
-            </Nav>
-            <Container className="pt-3">
-                <Card className="mb-2">
-                    <Card.Body>
-                        {/*}
-                        <Card.Title>Account Information</Card.Title>
-                        <Details accountId={accountId} />
-                        <Terms accountId={accountId} />
-                        <Payments accountId={accountId} />
-                        */}
-                        {['1', '2', '3', '4', '5'].map((key) => (
-                            <>
-                                <Details accountId={accountId} />
-                                <Details accountId={accountId} />
-                                <Details accountId={accountId} />
-                                <Details accountId={accountId} />
-                                <Details accountId={accountId} />
-                                <Details accountId={accountId} />
-                                <Details accountId={accountId} />
-                                <Details accountId={accountId} />
-                                <Details accountId={accountId} />
-                            </>
+            <div className="mb-2">
+                <h3>
+                <strong>Account:</strong> <code className="small">{account.name}</code>
+                </h3>
+            </div>
+            
+            <Tabs
+            id="controlled-tab-example"
+            activeKey={tabKey}
+            onSelect={(k) => setTabKey(k)}
+            className="mb-3"
+            >
+                <Tab eventKey="details" title="Details">
+                    <h1>Details</h1>
+                </Tab>
+                <Tab eventKey="terms" title="Terms">
+                    <h1>Terms</h1>
+                </Tab>
+                <Tab eventKey="payments" title="Payments">
+                    <h1>Payments</h1>
+                    <PaymentListsProvider></PaymentListsProvider>
 
-                        ))}
-                    </Card.Body>
-                </Card>
-            </Container>
+                </Tab>
+            </Tabs>
         </>
     );
 }
@@ -133,6 +130,7 @@ function Terms(accountId) {
 
 function Payments(accountId) {
     const [paymentsData, setPaymentsData] = useState(null);
+    /*
     useEffect(() => {
         // Fetch payments for the account
         getPaymentViaAccountID(accountId.accountId).then((paymentsData) => {
@@ -153,11 +151,12 @@ function Payments(accountId) {
             //setLoading(false);
         });
     }, []);
+    */
 
     return (
         <>
+        {/*
             <h1>Payments</h1>
-            {/* Render DataTable here account-table*/}
             <DataTable data={paymentsData} className="table table-striped table-bordered table-hover">
                 <thead className="thead-dark">
                     <tr>
@@ -169,27 +168,8 @@ function Payments(accountId) {
                     </tr>
                 </thead>
             </DataTable>
+            */}
         </>
     );   
 
-}
-
-function formatStatus(statusValue) {
-    if (!statusValue) return '';
-    return statusValue.charAt(0).toUpperCase() + statusValue.slice(1);
-}
-
-function formatDate(dateValue) {
-    if (!dateValue) return '';
-    const date = new Date(dateValue);
-    return date.toLocaleDateString();
-}
-
-function formatAmount(amountValue) {
-    return amountValue != null && amountValue !== ''
-        ? `₱${Number(amountValue).toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        })}`
-        : '';
 }

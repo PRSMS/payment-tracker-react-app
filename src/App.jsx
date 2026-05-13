@@ -28,6 +28,8 @@ import { ForgotPassword } from "./components/ForgotPassword.jsx";
 import PrivateRoute from './components/PrivateRoute';
 
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
+import { AdminAPIProvider } from './context/AdminAPIContext.jsx';
+import { AccountsProvider } from "./context/AccountsContext";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -69,6 +71,7 @@ function App() {
                 {/* Protected Routes */}
                 <Route element={<PrivateRoute />}>
                   <Route exact path="/" element={<Dashboard />} />
+                  <Route path="/accountDetails/:accountId" element={<AdminAPIProvider><AccountsProvider><AccountDetails /></AccountsProvider></AdminAPIProvider>} />
                 </Route>
 
                 <Route path="/login" element={<Login />} />
