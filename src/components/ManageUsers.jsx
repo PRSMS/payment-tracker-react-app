@@ -5,13 +5,14 @@ import { Container, Tab, Tabs, Card, Row, Col, Badge, Button, Spinner, Form } fr
 
 
 export function ManageUsers() {
-    const [userList, setUserList] = useState(null);
+    const [query, setQuery] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const { currentUserTokenResult } = useAuth();  
-    const {getUsers, sendEmailVerificationRequest, setAdminRole, deleteUser, setUserDisabled} = useAdminAPI();
+    const {userLists, getUsers, sendEmailVerificationRequest, setAdminRole, deleteUser, setUserDisabled} = useAdminAPI();
 
+    const [userList, setUserList] = useState(userLists);
     //const apiUsersURL = import.meta.env.VITE_API_BASE_URL + '/api/users';
 
     const handleGetUsers = async () => {
@@ -142,6 +143,10 @@ export function ManageUsers() {
         
     }
 
+    const filteredItems =  userList && userList.filter(user => {
+        return user.name.toLowerCase().includes(query.toLowerCase())
+    })
+    
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
@@ -156,16 +161,19 @@ export function ManageUsers() {
     <>
         <Card className="mb-3">
             <Card.Body className="d-flex justify-content-between align-items-center">
-                <span className="fw-bold">Total users: {userList ? userList.length : 0}</span>
+                <span className="fw-bold">Total users: {userLists ? userLists.length : 0}</span>
+                Search : <input value={query} onChange={e => setQuery(e.target.value)} type="search" />
+                {/*
                 <Button variant="primary" onClick={(e) => handleGetUsers(e)} disabled={loading}>
                     {loading ? 'Loading...' : 'Get Users'}
                 </Button>
+                */}
             </Card.Body>
         </Card>
         {error && <div className="alert alert-danger">{error}</div>}
 
         <Row xs={1} md={2} lg={3} className="g-3">
-            {userList && userList.map(user => (
+            {filteredItems && filteredItems.map(user => (
                 <Col key={user.id}>
                     <Card className="h-100 shadow-sm">
                         <Card.Header className="d-flex justify-content-between align-items-center">

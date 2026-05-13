@@ -1,29 +1,32 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Container, Tab, Tabs, Card, Row, Col, Badge, Button } from "react-bootstrap";
-import { getAllAccounts } from '../lib/FirebaseAPICall.js';
+import { useAccounts } from "../context/AccountsContext";
 
 export function ManageAccounts() {
-    const [accountList, setAccountList] = useState([]);
+    const { Accounts } = useAccounts();
+    const [query, setQuery] = useState("");
 
-    const handleGetAccounts = () => {
-        getAllAccounts().then((message) => {
-            console.log('Accounts retrieved successfully:', message);       
-            setAccountList(message);
-        }).catch((error) => {
-            console.error('Error fetching accounts:', error);
-        });
-    }
+    const filteredItems =  Object.fromEntries(
+        Object.entries(Accounts).filter(([key, account]) => {
+            return account.name.toLowerCase().includes(query.toLowerCase())
+        })
+    )
+
   return (
-    <>                    
+    <>                  
         <Card className="mb-3">
-            <Card.Body className="d-flex justify-content-between align-items-center">
+            <Card.Body className="d-flex justify-content-between align-items-center"><span className="fw-bold">
+                Total accounts: {Accounts ? Object.keys(Accounts).length : 0}</span>
+                Search : <input value={query} onChange={e => setQuery(e.target.value)} type="search" />
+        {/*  
                 <span className="fw-bold">Total accounts: {accountList ? Object.keys(accountList).length : 0}</span>
                 <Button variant="primary" onClick={handleGetAccounts}>Get Accounts</Button>
+        */}
             </Card.Body>
         </Card>
         <Row xs={1} md={2} lg={3} className="g-3">
-            {Object.entries(accountList).map(([key, account]) => (
+            {Object.entries(filteredItems).map(([key, account]) => (
                 <Col key={key}>
                     <Card className="h-100 shadow-sm">
                         <Card.Header className="d-flex justify-content-between align-items-center">
@@ -40,6 +43,12 @@ export function ManageAccounts() {
                             {/*<Card.Text>*/}
                                 <div className="mb-2">
                                     <strong>Amount:</strong> ${account.amount}
+                                </div>
+                                <div className="mb-2">
+                                    <strong>Date Created:</strong> {account.start_date}
+                                </div>
+                                <div className="mb-2">
+                                    <strong>Created by:</strong> {account.created_by}
                                 </div>
                                 <div>
                                     <strong>Remarks:</strong> {account.remarks}

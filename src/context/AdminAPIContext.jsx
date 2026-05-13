@@ -9,7 +9,8 @@ export function useAdminAPI() {
 }
 
 export function AdminAPIProvider({ children }) {
-    const [loading, setLoading] = useState(false);
+    const [userLists, setuserLists] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     function createUser(data){
         return fetch(apiAdminBaseURL + '/api/users', {
@@ -93,7 +94,31 @@ export function AdminAPIProvider({ children }) {
             });
     }
 
+    useEffect(() => {
+        // 1. Create the AbortController
+        const controller = new AbortController();
+        const fetchUsers = async () => {
+            try {
+                const response = await getUsers();
+                if (!response.ok) throw new Error("Network response was not ok");
+                const data = await response.json();
+                console.log('User fetching successfully:', data);
+                setuserLists(data);
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUsers();
+
+        // 4. Cleanup: abort request if component unmounts
+        return () => controller.abort();
+    }, []);
+
     const value = {
+        userLists,
         createUser,
         deleteUser,
         getUsers,

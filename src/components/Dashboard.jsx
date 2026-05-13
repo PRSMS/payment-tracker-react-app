@@ -7,6 +7,7 @@ import { ManageUsers } from "./ManageUsers.jsx";
 import { ManageAccounts } from "./ManageAccounts.jsx";
 
 import { AdminAPIProvider } from '../context/AdminAPIContext.jsx';
+import { AccountsProvider } from "../context/AccountsContext";
 
 export function Dashboard() {
     const { logout, currentUser, currentUserClaims } = useAuth();
@@ -26,6 +27,8 @@ export function Dashboard() {
                     <p>Welcome back, <strong className="text-success bg-light">{currentUser?.displayName ? currentUser.displayName : 'User'}</strong> ({currentUser?.email ? currentUser.email : 'User Email'})</p>
 
                     <Button variant="outline-danger" onClick={logout}>Log Out</Button>
+                    {/*<Button variant="outline-secondary" >View Accounts</Button>*/}
+
                 </Tab>
                 {/* Admin manage payment-tracker users*/}
                 {currentUserClaims?.admin ? 
@@ -33,7 +36,7 @@ export function Dashboard() {
                 : null}
                 {/* Admin manage payment-tracker accounts*/}
                 <Tab eventKey="accounts" title="Accounts">
-                    <ManageAccounts />
+                    <AccountsProvider><ManageAccounts /></AccountsProvider>
                 </Tab>
                 {/* Admin On Boarding Tracker Sign Up */}
                 {currentUserClaims?.admin ?
