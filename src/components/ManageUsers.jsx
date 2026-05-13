@@ -144,7 +144,8 @@ export function ManageUsers() {
     }
 
     const filteredItems =  userList && userList.filter(user => {
-        return user.name.toLowerCase().includes(query.toLowerCase())
+        return (user.name.toLowerCase().includes(query.toLowerCase()) ||
+        user.email.toLowerCase().includes(query.toLowerCase()))
     })
     
   if (loading) {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Container, Tab, Tabs, Card, Row, Col, Badge, Button } from "react-bootstrap";
 import { useAccounts } from "../context/AccountsContext";
+import {formatStatus, formatDate, formatAmount } from "../lib/HelperFunction.js"
 
 export function ManageAccounts() {
     const { Accounts } = useAccounts();
@@ -12,6 +13,10 @@ export function ManageAccounts() {
             return account.name.toLowerCase().includes(query.toLowerCase())
         })
     )
+
+    const handleViewDetails = async (key) => {
+        console.log("handleViewDetails :" , key);
+    };
 
   return (
     <>                  
@@ -42,10 +47,10 @@ export function ManageAccounts() {
                         <Card.Body>
                             {/*<Card.Text>*/}
                                 <div className="mb-2">
-                                    <strong>Amount:</strong> ${account.amount}
+                                    <strong>Amount:</strong> {formatAmount(account.amount)}
                                 </div>
                                 <div className="mb-2">
-                                    <strong>Date Created:</strong> {account.start_date}
+                                    <strong>Date Created:</strong> {formatDate(account.start_date)}
                                 </div>
                                 <div className="mb-2">
                                     <strong>Created by:</strong> {account.created_by}
@@ -55,6 +60,9 @@ export function ManageAccounts() {
                                 </div>
                             {/*</Card.Text>*/}
                         </Card.Body>
+                        <Card.Footer className="d-flex justify-content-end">
+                            <Button variant="warning" size="sm" href={`#/accountDetails/${key}`} onClick={() => handleViewDetails(key)} >View Details</Button>
+                        </Card.Footer>
                     </Card>
                 </Col>
             ))}

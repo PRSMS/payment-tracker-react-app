@@ -4,7 +4,7 @@ import { ref, set, get, onValue } from 'firebase/database'
 
 const TermListsContext = React.createContext();
 
-export function useDatabase() {
+export function useTermLists() {
     return useContext(TermListsContext);
 }
 

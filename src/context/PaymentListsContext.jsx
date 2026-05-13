@@ -4,7 +4,7 @@ import { ref, set, get, onValue } from 'firebase/database'
 
 const PaymentListsContext = React.createContext();
 
-export function useDatabase() {
+export function usePaymentLists() {
     return useContext(PaymentListsContext);
 }
 
