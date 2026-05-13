@@ -6,6 +6,7 @@ import { Link, useNavigate  } from 'react-router-dom';
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -20,8 +21,9 @@ export function Login() {
     try {
       await loginWithPersistence(email, password)
       navigate('/'); // Redirect to dashboard after successful login
-    } catch (error) {
-      console.error('Error logging in:', error)
+    } catch (err) {
+      //console.error('Error logging in:', error)
+      setError(err.code);
     }
   }
 
@@ -29,6 +31,7 @@ export function Login() {
     <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
       <Card className="shadow-lg" style={{ maxWidth: '450px', width: '100%', border: 'none' }}>
         <Card.Body className="p-5">
+          {error && <div className="alert alert-danger">{error}</div>}
           <div className="text-center mb-4">
             <h2 className="fw-bold text-primary">Welcome Back</h2>
             <p className="text-muted">Sign in to your account</p>
