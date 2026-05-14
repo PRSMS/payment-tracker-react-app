@@ -40,6 +40,7 @@ export function AccountDetails() {
 /*
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    */
     //if (loading) return <p>Loading...</p>;
     return (
         <>
