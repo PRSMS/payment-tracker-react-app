@@ -57,8 +57,6 @@ function App() {
       )}
 */}
       <Container className="align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
-        <h1>Welcome to the Payment Tracker App</h1>
-        <p>This is a simple application to track your payments and manage your accounts.</p>
         {/*}
         <Button variant="primary" href={`${baseURL}/login`}>Log In</Button>{' '}
         <Button variant="secondary" href={`${baseURL}/signup`}>Sign Up</Button>

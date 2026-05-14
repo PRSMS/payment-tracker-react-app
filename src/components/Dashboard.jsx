@@ -24,6 +24,8 @@ export function Dashboard() {
             >
                 <Tab eventKey="home" title="Home">
                     <h1>Dashboard</h1>
+                    <h3>Welcome to the Payment Tracker App</h3>
+                    <p>This is a simple application to track your payments and manage your accounts.</p>
                     <p>Welcome back, <strong className="text-success bg-light">{currentUser?.displayName ? currentUser.displayName : 'User'}</strong> ({currentUser?.email ? currentUser.email : 'User Email'})</p>
 
                     <Button variant="outline-danger" onClick={logout}>Log Out</Button>

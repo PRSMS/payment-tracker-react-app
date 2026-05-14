@@ -7,11 +7,11 @@ import { getAccountViaId,
     getTermViaAccountId,
     getPaymentViaAccountID } from '../lib/FirebaseAPICall.js';
 */
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 //import Card from 'react-bootstrap/Card';
 //import Nav from 'react-bootstrap/Nav';
-import { Container, Tab, Tabs, Badge, Button } from "react-bootstrap";
+import { Container, Tab, Tabs, Badge, Button, Card } from "react-bootstrap";
 
 import { useAuth } from "../context/AuthContext";
 import { useAdminAPI } from '../context/AdminAPIContext.jsx';
@@ -24,21 +24,53 @@ import { PaymentListsProvider } from "../context/PaymentListsContext";
 
 export function AccountDetails() {
     const { accountId } = useParams(null);
-    const [tabKey, setTabKey] = useState('home');
+    const [tabKey, setTabKey] = useState('details');
     const [loading, setLoading] = useState(true);
+    //const [show, setShow] = useState(false);
 
     const { Accounts } = useAccounts();
     const account = Accounts[accountId];
 
+    const navigate = useNavigate();
+
+    const handleGoBack = async (e) => {
+        e.preventDefault()
+        navigate('/');
+    }
+/*
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    */
     //if (loading) return <p>Loading...</p>;
     return (
         <>
-            <div className="mb-2">
-                <h3>
-                <strong>Account:</strong> <code className="small">{account.name}</code>
-                </h3>
-            </div>
-            
+{/*}
+        <Offcanvas show={show} onHide={handleClose}>
+            <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+            Some text as placeholder. In real life you can have the elements you
+            have chosen. Like, text, images, lists, etc.
+            </Offcanvas.Body>
+        </Offcanvas>
+*/}
+        <br />
+            <Card className="mb-3">
+                <Card.Body className="d-flex justify-content-between align-items-center">
+                    <h3>
+                    <strong>Account:</strong> <code className="small">{account.name}</code>
+                    </h3>
+                    <Button variant="primary" onClick={(e) => handleGoBack(e)} >
+                        <i className="fa fa-home"></i>
+                    </Button>
+                    {/*
+                    <Button variant="primary" onClick={(e) => handleGetUsers(e)} disabled={loading}>
+                        {loading ? 'Loading...' : 'Get Users'}
+                    </Button>
+                    */}
+                </Card.Body>
+            </Card>
             <Tabs
             id="controlled-tab-example"
             activeKey={tabKey}

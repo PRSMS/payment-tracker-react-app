@@ -163,7 +163,16 @@ export function ManageUsers() {
         <Card className="mb-3">
             <Card.Body className="d-flex justify-content-between align-items-center">
                 <span className="fw-bold">Total users: {userLists ? userLists.length : 0}</span>
-                Search : <input value={query} onChange={e => setQuery(e.target.value)} type="search" />
+                <div style={{ position: 'relative', width: 'fit-content' }}>
+                    <input value={query} onChange={e => setQuery(e.target.value)} type="search" style={{ paddingLeft: '30px' }} />
+                    <i className="fa fa-search" style={{ 
+                    position: 'absolute', 
+                    left: '10px', 
+                    top: '50%', 
+                    transform: 'translateY(-50%)',
+                    color: '#aaa' 
+                    }}></i>
+                </div>
                 {/*
                 <Button variant="primary" onClick={(e) => handleGetUsers(e)} disabled={loading}>
                     {loading ? 'Loading...' : 'Get Users'}
