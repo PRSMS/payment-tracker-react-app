@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { auth, database } from '../config/firebase'
-import { ref, set, get, onValue } from 'firebase/database'
+import { ref, set, get, push, remove, onValue } from 'firebase/database'
+
+import { useAuth } from "./AuthContext";
 
 const AccountsContext = React.createContext();
 
@@ -11,6 +13,43 @@ export function useAccounts() {
 export function AccountsProvider({ children }) {
     const [Accounts, setAccounts] = useState(null);
     const [loading, setLoading] = useState(true);
+    
+    const { currentUser, currentUserClaims } = useAuth();
+
+    function addNewAccount(data){
+        console.log("currentUser : ", currentUser)
+        const listRef = ref(database, 'accounts');
+        const newItemRef = push(listRef);
+
+        return new Promise((resolve, reject) => {
+            set(newItemRef, {
+                name: data.name,
+                created_by: currentUser.uid,
+                amount: data.amount,
+                account_status:1,
+                remarks:'',
+                start_date: Date.now()
+            }).then(() => {
+                console.log("Data saved successfully! ")
+                resolve({ ok: true });
+            }).catch((error) => {
+                reject("Error:" + error);
+                alert("error adding new account :" , error);
+            });
+        });
+    }
+
+    function deleteAccount(id){
+        const removeItemRef = ref(database, 'accounts/' + id)
+        return new Promise((resolve, reject) => {
+            remove(removeItemRef).then(() => {
+                resolve({ ok: true });
+            }).catch((error) => {
+                reject("Error:" + error);
+            })
+        });
+    }
+
 
     //const accountsRef = ref(database, 'accounts/');
     useEffect(() => {
@@ -38,7 +77,9 @@ export function AccountsProvider({ children }) {
     }, []);
     
     const value = {
-        Accounts
+        Accounts,
+        addNewAccount,
+        deleteAccount
     };
 
     return (
