@@ -11,15 +11,21 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 
 //import Card from 'react-bootstrap/Card';
 //import Nav from 'react-bootstrap/Nav';
-import { Container, Tab, Tabs, Badge, Button, Card } from "react-bootstrap";
+import { Container, Tab, Tabs, Badge, 
+    Button, Card, Dropdown, DropdownButton, ButtonGroup  } from "react-bootstrap";
 
 import { useAuth } from "../context/AuthContext";
 import { useAdminAPI } from '../context/AdminAPIContext.jsx';
 import { useAccounts } from "../context/AccountsContext";
 
+import {formatStatus, formatDate, formatAmount } from "../lib/HelperFunction.js"
 
 import { PaymentListsProvider } from "../context/PaymentListsContext";
+import { ManagePayments } from "./ManagePayments";
+import { TermListsProvider } from "../context/TermListsContext";
+import { ManageTerms } from "./ManageTerms";
 
+//import { GearFill } from 'react-bootstrap-icons'; // Example icon
 //DataTable.use(DT);
 
 export function AccountDetails() {
@@ -55,15 +61,53 @@ export function AccountDetails() {
             </Offcanvas.Body>
         </Offcanvas>
 */}
+{/*}
+        <DropdownButton 
+            variant="info" 
+            className="rounded-circle position-fixed" 
+            onClick={() => handledropDown()}
+            style={{ bottom: '20px', right: '20px', zIndex: 1000 }}
+        >
+            <Dropdown.Item eventKey="1">Action</Dropdown.Item>
+            <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
+            <Dropdown.Item eventKey="3" active>
+              Active Item
+            </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item eventKey="4">Separated link</Dropdown.Item>
+            */}
+            {/* Icon or Text */}
+            {/*<span style={{ fontSize: '20px' }}><i className="fa fa-bars" style={{color: '#fff'}}/></span>*/}
+        {/*</DropdownButton>  */}
+
+        <Dropdown className="position-fixed bottom-0 end-0 m-4" style={{ zIndex: 1050 }}>
+        <Dropdown.Toggle 
+            variant="primary" 
+            className="rounded-circle custom-dropdown-toggle"
+            id="dropdown-circle"
+            style={{ width: '50px', height: '50px', padding: '0'}}
+        >
+            <span style={{ fontSize: '20px' }}><i className="fa fa-bars" style={{color: '#fff'}}/></span>
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+            <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+            <Dropdown.Item href="#/action-2">Settings</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item onClick={(e) => handleGoBack(e)}><i className="fa fa-home"></i> Home</Dropdown.Item>
+        </Dropdown.Menu>
+        </Dropdown>
         <br />
             <Card className="mb-3">
                 <Card.Body className="d-flex justify-content-between align-items-center">
                     <h3>
                     <strong>Account:</strong> <code className="small">{account.name}</code>
                     </h3>
+                    {/*
                     <Button variant="primary" onClick={(e) => handleGoBack(e)} >
                         <i className="fa fa-home"></i>
                     </Button>
+                    */}
                     {/*
                     <Button variant="primary" onClick={(e) => handleGetUsers(e)} disabled={loading}>
                         {loading ? 'Loading...' : 'Get Users'}
@@ -78,130 +122,35 @@ export function AccountDetails() {
             className="mb-3"
             >
                 <Tab eventKey="details" title="Details">
-                    <h1>Details</h1>
+                    <Card className="h-100 shadow-sm">
+                        <Card.Header className="d-flex justify-content-between align-items-center">
+                            <strong>{account.name}</strong>
+                        </Card.Header>
+                        <Card.Body>
+                            <div className="mb-2">
+                                <strong>Amount:</strong> {formatAmount(account.amount)}
+                            </div>
+                            <div className="mb-2">
+                                <strong>Date Created:</strong> {formatDate(account.start_date)}
+                            </div>
+                            <div className="mb-2">
+                                <strong>Created by:</strong> {account.created_by}
+                            </div>
+                            <div>
+                                <strong>Remarks:</strong> {account.remarks}
+                            </div>
+
+                        </Card.Body>
+                    </Card>
                 </Tab>
                 <Tab eventKey="terms" title="Terms">
-                    <h1>Terms</h1>
+                    <TermListsProvider><ManageTerms id={accountId} /></TermListsProvider>
                 </Tab>
                 <Tab eventKey="payments" title="Payments">
-                    <h1>Payments</h1>
-                    <PaymentListsProvider></PaymentListsProvider>
+                    <PaymentListsProvider><ManagePayments id={accountId} /></PaymentListsProvider>
 
                 </Tab>
             </Tabs>
         </>
     );
-}
-function Details(accountId) {
-
-    const [accountData, setAccountData] = useState(null);
-
-    useEffect(() => {
-        // Fetch account details            
-        getAccountViaId(accountId.accountId).then((accountData) => {
-            console.log('Account details retrieved successfully:', accountData);
-            setAccountData(accountData);
-            //setLoading(false);
-        }).catch((error) => {
-            console.error('Error fetching account details:', error);
-            //setLoading(false);
-        });
-    }, []);
-
-    return (
-        <>
-            <h1>Account : {accountData?.name}</h1>
-        </>
-    );
-}
-
-function Terms(accountId) {
-    const [termsData, setTermsData] = useState(null);
-
-    useEffect(() => {
-        // Fetch terms for the account
-        getTermViaAccountId(accountId.accountId).then((termsData) => {
-            console.log('Terms retrieved successfully:', termsData);
-            const data = Object.values(termsData).map(term => {
-                return [
-                    term.term || '',
-                    formatDate(term.due_date) || '',
-                    formatAmount(term.amortization) || '',
-                    term.status || '',
-                    term.remarks || ''
-                ];
-            });
-            setTermsData(data);
-            //setLoading(false);
-        }).catch((error) => {
-            console.error('Error fetching terms:', error);
-            //setLoading(false);
-        });  
-        
-    }, []);
-
-    return (
-        <>
-            <h1>Terms</h1>
-            {/* Render DataTable here account-table*/}
-            <DataTable data={termsData} className="table table-striped table-bordered table-hover">
-                <thead className="thead-dark">
-                    <tr>
-                        <th>Name</th>
-                        <th>Due Date</th>
-                        <th>Amortization</th>
-                        <th>Status</th>
-                        <th>Remarks</th>
-                    </tr>
-                </thead>
-            </DataTable>
-            
-        </>
-    );
-}
-
-function Payments(accountId) {
-    const [paymentsData, setPaymentsData] = useState(null);
-    /*
-    useEffect(() => {
-        // Fetch payments for the account
-        getPaymentViaAccountID(accountId.accountId).then((paymentsData) => {
-            console.log('Payments retrieved successfully:', paymentsData);;
-            const data = Object.values(paymentsData).map(payment => {
-                return [
-                    payment.name || '',
-                    formatAmount(payment.amount) || '',
-                    formatDate(payment.payment_date) || '',
-                    payment.status || '',
-                    payment.remarks || ''
-                ];
-            });
-            setPaymentsData(data);
-            //setLoading(false);
-        }).catch((error) => {
-            console.error('Error fetching payments:', error);
-            //setLoading(false);
-        });
-    }, []);
-    */
-
-    return (
-        <>
-        {/*
-            <h1>Payments</h1>
-            <DataTable data={paymentsData} className="table table-striped table-bordered table-hover">
-                <thead className="thead-dark">
-                    <tr>
-                        <th>Name</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Remarks</th>
-                    </tr>
-                </thead>
-            </DataTable>
-            */}
-        </>
-    );   
-
 }
