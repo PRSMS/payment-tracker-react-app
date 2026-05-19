@@ -16,7 +16,7 @@ export function ManageTerms({ id }) {
     }, [id]);
 
     const filteredItems =  Object.fromEntries(
-        Object.entries(TermLists).filter(([key, term]) => {
+        Object.entries(TermLists || {}).filter(([key, term]) => {
             return term.term.toLowerCase().includes(query.toLowerCase())
         })
     );
@@ -41,7 +41,7 @@ export function ManageTerms({ id }) {
         </div>
 
         <Row xs={1} md={2} lg={3} className="g-3">
-            {Object.entries(filteredItems).map(([key, term]) => (
+            {Object.entries(filteredItems || {}).map(([key, term]) => (
                 <Col key={key}>
                     <Card className="h-100 shadow-sm">
                         <Card.Header className="d-flex justify-content-between align-items-center">
