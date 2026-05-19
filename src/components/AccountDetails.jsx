@@ -41,7 +41,7 @@ export function AccountDetails() {
 
     const handleGoBack = async (e) => {
         e.preventDefault()
-        navigate('/');
+        navigate(-1);
     }
 /*
     const handleClose = () => setShow(false);
@@ -94,7 +94,7 @@ export function AccountDetails() {
             <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
             <Dropdown.Item href="#/action-2">Settings</Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={(e) => handleGoBack(e)}><i className="fa fa-home"></i> Home</Dropdown.Item>
+            <Dropdown.Item onClick={(e) => handleGoBack(e)}><i className="fa fa-backward"></i> Back</Dropdown.Item>
         </Dropdown.Menu>
         </Dropdown>
         <br />

@@ -7,9 +7,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //import './App.css'
 //import { BrowserRouter, HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
-import {Home} from './components/Home.jsx';
+//import {Home} from './components/Home.jsx';
 import {About} from './components/About.jsx'; 
 import {Login} from './components/LogIn.jsx'; 
+import { ManageUsers } from "./components/ManageUsers.jsx";
+import { ManageAccounts } from "./components/ManageAccounts.jsx";
+
 import {AccountDetails} from './components/AccountDetails.jsx'; 
 import {OffcanvasExample} from './components/Navbar.jsx'; 
 
@@ -56,19 +59,23 @@ function App() {
         <Login />
       )}
 */}
+      <AuthProvider>
       <Container className="align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
         {/*}
         <Button variant="primary" href={`${baseURL}/login`}>Log In</Button>{' '}
         <Button variant="secondary" href={`${baseURL}/signup`}>Sign Up</Button>
         */}
         {/*<Router basename={import.meta.env.VITE_BASE_URL}>*/}
+        
+        <OffcanvasExample />
         <Router>
-          <AuthProvider>
               <Routes>
 
                 {/* Protected Routes */}
                 <Route element={<PrivateRoute />}>
                   <Route exact path="/" element={<Dashboard />} />
+                  <Route path="/manage-users" element={<AdminAPIProvider><ManageUsers /></AdminAPIProvider>} />
+                  <Route path="/manage-accounts" element={<AccountsProvider><ManageAccounts /></AccountsProvider>} />
                   <Route path="/accountDetails/:accountId" element={<AdminAPIProvider><AccountsProvider><AccountDetails /></AccountsProvider></AdminAPIProvider>} />
                 </Route>
 
@@ -76,9 +83,9 @@ function App() {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
               </Routes>
-          </AuthProvider>
         </Router>
       </Container>
+      </AuthProvider>
     </>
   )
 }

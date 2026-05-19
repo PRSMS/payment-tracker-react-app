@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTermLists } from "../context/TermListsContext.jsx";
 import { Container, Tab, Tabs, Card, Row, Col,
      Badge, Button, Dropdown, Offcanvas } from "react-bootstrap";
@@ -6,9 +6,14 @@ import {formatStatus, formatDate, formatAmount } from "../lib/HelperFunction.js"
 
 export function ManageTerms({ id }) {
     const [loading, setLoading] = useState(false);
-    const { TermLists } = useTermLists();
+    const { TermLists, getTermListsById } = useTermLists();
     const [query, setQuery] = useState("");
     //const account = accounts.find(acc => acc.id === id);
+
+    //getTermListsById(id);
+    useEffect(() => {
+        getTermListsById(id);
+    }, [id]);
 
     const filteredItems =  Object.fromEntries(
         Object.entries(TermLists).filter(([key, term]) => {
