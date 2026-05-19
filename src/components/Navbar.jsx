@@ -14,16 +14,27 @@ import { useAuth } from "../context/AuthContext";
 
 export function OffcanvasExample() {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [dataBsTheme, setDataBsTheme] = useState('Light');
+  const [dataBsTheme, setDataBsTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('dataBsTheme');
+    return savedTheme ? savedTheme : 'light';
+  });
   const { logout, currentUser, currentUserClaims } = useAuth();
     
   useEffect(() => {
-    //const adminStatus = sessionStorage.getItem('isAdmin');
-
-    currentUserClaims && currentUserClaims.admin === true ? setIsAdmin(true) : setIsAdmin(false);
+    if (currentUserClaims && currentUserClaims.admin === true) {
+      sessionStorage.setItem('isAdmin', true);
+      setIsAdmin(true);
+    }
+    else {
+      sessionStorage.setItem('isAdmin', false);
+      setIsAdmin(false);
+    }
+    //currentUserClaims && currentUserClaims.admin === true ? setIsAdmin(true) : setIsAdmin(false);
+    //sessionStorage.setItem('isAdmin', currentUserClaims.admin);
   }, [currentUserClaims]);
 
   useEffect(() => {
+    localStorage.setItem('dataBsTheme', dataBsTheme);
     // This updates the <html data-bs-theme="..."> tag
     document.documentElement.setAttribute('data-bs-theme', dataBsTheme);
   }, [dataBsTheme]);
@@ -93,10 +104,12 @@ export function OffcanvasExample() {
                 </form>
                 &emsp;
                 <NavDropdown
-                    title={<i className="fa fa-cog"></i>}
+                    title={dataBsTheme === 'dark' ? <i className="fa fa-moon-o"></i> : <i className="fa fa-sun-o"></i>}
                     id={`offcanvasNavbarDropdown-expand-sm`}
                   >
-                    <NavDropdown.Item onClick={() => setDataBsTheme('auto')}>Auto</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => setDataBsTheme('auto')}>
+                      <i className="fa fa-cog"></i> Auto
+                    </NavDropdown.Item>
                     <NavDropdown.Item onClick={() => setDataBsTheme('light')}>
                       <i className="fa fa-sun-o"></i> Light
                     </NavDropdown.Item>
