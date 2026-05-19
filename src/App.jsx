@@ -76,7 +76,7 @@ function App() {
                   <Route exact path="/" element={<Dashboard />} />
                   <Route path="/manage-users" element={<AdminAPIProvider><ManageUsers /></AdminAPIProvider>} />
                   <Route path="/manage-accounts" element={<AccountsProvider><ManageAccounts /></AccountsProvider>} />
-                  <Route path="/accountDetails/:accountId" element={<AdminAPIProvider><AccountsProvider><AccountDetails /></AccountsProvider></AdminAPIProvider>} />
+                  <Route path="/accountDetails/:accountId" element={<AccountsProvider><AccountDetails /></AccountsProvider>} />
                 </Route>
 
                 <Route path="/login" element={<Login />} />
