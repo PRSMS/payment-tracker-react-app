@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { auth, database } from '../config/firebase'
-import { ref, set, get, onValue } from 'firebase/database'
+import { ref, set, get, onValue, query, orderByChild, equalTo } from 'firebase/database'
 
 const TermListsContext = React.createContext();
 
@@ -11,6 +11,22 @@ export function useTermLists() {
 export function TermListsProvider({ children }) {
     const [TermLists, setTermLists] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    function getTermListsById(accountId){
+        setLoading(true);
+        console.log("getTermListsById called with accountId:", accountId);
+        const termListsRef = ref(database, `term_list/`);
+        const nameQuery = query(termListsRef, orderByChild('account_id'), equalTo(accountId));
+        get(nameQuery).then((snapshot) => {
+            const data = snapshot.val();
+            setTermLists(data);
+            console.log('TermLists initialized for accountId:', accountId, 'Data:', data);
+            setLoading(false);
+        }).catch((error) => {
+            console.error("Error initializing TermLists for accountId:", accountId, "Error:", error);
+            setLoading(false);
+        });
+    }
 
     useEffect(() => {
         const termListsRef = ref(database, 'term_list/');
@@ -37,7 +53,8 @@ export function TermListsProvider({ children }) {
     }, []);
     
     const value = {
-        TermLists
+        TermLists,
+        getTermListsById
     };
 
     return (
