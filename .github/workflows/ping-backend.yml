@@ -3,7 +3,7 @@ name: Scheduled Ping
 on:
   schedule:
     # Runs every 12 minutes (UTC)
-    - cron: '*/12 * * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch: # Allows you to run it manually for testing
 
 jobs:
